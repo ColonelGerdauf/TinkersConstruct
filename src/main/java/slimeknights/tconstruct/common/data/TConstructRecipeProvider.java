@@ -44,9 +44,11 @@ import slimeknights.tconstruct.library.recipe.casting.CastingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelBuilder;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe;
+import slimeknights.tconstruct.library.recipe.melting.MaterialMeltingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.partbuilder.PartRecipeBuilder;
 import slimeknights.tconstruct.library.registration.object.BuildingBlockObject;
+import slimeknights.tconstruct.library.tinkering.IMaterialItem;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.block.ClearStainedGlassBlock.GlassColor;
 import slimeknights.tconstruct.shared.block.SlimeBlock;
@@ -87,7 +89,7 @@ public class TConstructRecipeProvider extends RecipeProvider implements IConditi
     this.addSmelteryRecipes(consumer);
     this.addMeltingRecipes(consumer);
     this.addGadgetRecipes(consumer);
-    this.addPartBuilderRecipes(consumer);
+    this.addPartRecipes(consumer);
     this.addMaterialsRecipes(consumer);
     this.addCastingRecipes(consumer);
   }
@@ -926,16 +928,16 @@ public class TConstructRecipeProvider extends RecipeProvider implements IConditi
     }
   }
 
-  private void addPartBuilderRecipes(Consumer<IFinishedRecipe> consumer) {
-    addPartRecipe(consumer, TinkerToolParts.pickaxeHead, 2, "pickaxe_head");
-    addPartRecipe(consumer, TinkerToolParts.hammerHead, 8, "hammer_head");
-    addPartRecipe(consumer, TinkerToolParts.shovelHead, 2, "shovel_head");
-    addPartRecipe(consumer, TinkerToolParts.swordBlade, 2, "sword_blade");
-    addPartRecipe(consumer, TinkerToolParts.smallBinding, 1, "small_binding");
-    addPartRecipe(consumer, TinkerToolParts.wideGuard, 1, "wide_guard");
-    addPartRecipe(consumer, TinkerToolParts.largePlate, 8, "large_plate");
-    addPartRecipe(consumer, TinkerToolParts.toolRod, 1, "tool_rod");
-    addPartRecipe(consumer, TinkerToolParts.toughToolRod, 3, "tough_tool_rod");
+  private void addPartRecipes(Consumer<IFinishedRecipe> consumer) {
+    addPartRecipe(consumer, TinkerToolParts.pickaxeHead, 2);
+    addPartRecipe(consumer, TinkerToolParts.hammerHead, 8);
+    addPartRecipe(consumer, TinkerToolParts.shovelHead, 2);
+    addPartRecipe(consumer, TinkerToolParts.swordBlade, 2);
+    addPartRecipe(consumer, TinkerToolParts.smallBinding, 1);
+    addPartRecipe(consumer, TinkerToolParts.wideGuard, 1);
+    addPartRecipe(consumer, TinkerToolParts.largePlate, 8);
+    addPartRecipe(consumer, TinkerToolParts.toolRod, 1);
+    addPartRecipe(consumer, TinkerToolParts.toughToolRod, 3);
   }
 
   private void addMaterialsRecipes(Consumer<IFinishedRecipe> consumer) {
@@ -1070,16 +1072,23 @@ public class TConstructRecipeProvider extends RecipeProvider implements IConditi
   /**
    * Adds a recipe to craft a part
    * @param consumer  Recipe consumer
-   * @param part      Part to be crafted
+   * @param sup       Material item supplier
    * @param cost      Part cost
-   * @param saveName  Name for the recipe
    */
-  private void addPartRecipe(Consumer<IFinishedRecipe> consumer, IItemProvider part, int cost, String saveName) {
+  private void addPartRecipe(Consumer<IFinishedRecipe> consumer, Supplier<? extends IMaterialItem> sup, int cost) {
+    // first, add part builder recipe
+    IMaterialItem part = sup.get();
+    String name = Objects.requireNonNull(part.asItem().getRegistryName()).getPath();
     PartRecipeBuilder.partRecipe(new ItemStack(part))
-      .setPattern(location(saveName))
+      .setPattern(location(name))
       .setCost(cost)
-      .addCriterion("has_item", this.hasItem(TinkerTables.pattern.get()))
-      .build(consumer, location("parts/" + saveName));
+      .addCriterion("has_item", this.hasItem(TinkerTables.pattern))
+      .build(consumer, location("parts/" + name));
+
+    // next, add part melting recipe
+    MaterialMeltingRecipeBuilder.melting(part, cost * MaterialValues.VALUE_Ingot)
+                                .addCriterion("has_item", hasItem(part))
+                                .build(consumer, location("parts/melting/" + part));
   }
 
   /**

@@ -24,6 +24,7 @@ import slimeknights.tconstruct.library.recipe.casting.CastingBasinRecipe;
 import slimeknights.tconstruct.library.recipe.casting.CastingRecipeSerializer;
 import slimeknights.tconstruct.library.recipe.casting.CastingTableRecipe;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
+import slimeknights.tconstruct.library.recipe.melting.MaterialMeltingRecipe;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.library.registration.object.BlockItemObject;
 import slimeknights.tconstruct.library.registration.object.BuildingBlockObject;
@@ -165,6 +166,7 @@ public final class TinkerSmeltery extends TinkerModule {
   public static final RegistryObject<CastingRecipeSerializer<CastingBasinRecipe>> basinRecipeSerializer = RECIPE_SERIALIZERS.register("casting_basin", () -> new CastingRecipeSerializer<>(CastingBasinRecipe::new));
   public static final RegistryObject<CastingRecipeSerializer<CastingTableRecipe>> tableRecipeSerializer = RECIPE_SERIALIZERS.register("casting_table", () -> new CastingRecipeSerializer<>(CastingTableRecipe::new));
   public static final RegistryObject<IRecipeSerializer<MeltingRecipe>> meltingSerializer = RECIPE_SERIALIZERS.register("melting", MeltingRecipe.Serializer::new);
+  public static final RegistryObject<IRecipeSerializer<MaterialMeltingRecipe>> materialMeltingSerializer = RECIPE_SERIALIZERS.register("material_melting", MaterialMeltingRecipe.Serializer::new);
   public static final RegistryObject<IRecipeSerializer<MeltingFuel>> fuelSerializer = RECIPE_SERIALIZERS.register("melting_fuel", MeltingFuel.Serializer::new);
 
   /*
