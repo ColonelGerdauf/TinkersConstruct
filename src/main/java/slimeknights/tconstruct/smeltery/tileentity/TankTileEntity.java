@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.smeltery.tileentity;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
@@ -25,12 +27,14 @@ public class TankTileEntity extends SmelteryComponentTileEntity implements ITank
   public static final int CAPACITY = FluidAttributes.BUCKET_VOLUME * 4;
 
   /** Internal fluid tank instance */
+  @Getter
   protected final FluidTankAnimated tank = new FluidTankAnimated(CAPACITY, this);
   /** Capability holder for the tank */
   private final LazyOptional<IFluidHandler> holder = LazyOptional.of(() -> tank);
   /** Tank data for the model */
   private final ModelDataMap modelData;
   /** Last comparator strength to reduce block updates */
+  @Getter @Setter
   private int lastStrength;
 
   /** Main constructor */
@@ -50,27 +54,12 @@ public class TankTileEntity extends SmelteryComponentTileEntity implements ITank
    */
 
   @Override
-  public FluidTankAnimated getInternalTank() {
-    return tank;
-  }
-
-  @Override
   @Nonnull
   public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
     if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
       return holder.cast();
     }
     return super.getCapability(capability, facing);
-  }
-
-  @Override
-  public int getLastStrength() {
-    return lastStrength;
-  }
-
-  @Override
-  public void setLastStrength(int strength) {
-    lastStrength = strength;
   }
 
   @Override

@@ -52,12 +52,14 @@ public class MelterTileEntity extends InventoryTileEntity implements ITankTileEn
 
   /* Tank */
   /** Internal fluid tank output */
+  @Getter
   protected final FluidTankAnimated tank = new FluidTankAnimated(TANK_CAPACITY, this);
   /** Capability holder for the tank */
   private final LazyOptional<IFluidHandler> tankHolder = LazyOptional.of(() -> tank);
   /** Tank data for the model */
   private final ModelDataMap modelData;
   /** Last comparator strength to reduce block updates */
+  @Getter @Setter
   private int lastStrength = -1;
 
   /* Heating */
@@ -124,26 +126,11 @@ public class MelterTileEntity extends InventoryTileEntity implements ITankTileEn
    */
 
   @Override
-  public FluidTankAnimated getInternalTank() {
-    return tank;
-  }
-
-  @Override
   public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
     if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
       return tankHolder.cast();
     }
     return super.getCapability(capability, facing);
-  }
-
-  @Override
-  public int getLastStrength() {
-    return lastStrength;
-  }
-
-  @Override
-  public void setLastStrength(int strength) {
-    lastStrength = strength;
   }
 
   @Override
@@ -313,10 +300,10 @@ public class MelterTileEntity extends InventoryTileEntity implements ITankTileEn
    */
   @Nullable
   public MelterFuelWrapper getFuelInventory() {
-    if (fuelInventory == null || !fuelInventory.isValid()) {
-      TileEntity te = getWorld().getTileEntity(this.getPos().down());
+    if (world != null && (fuelInventory == null || !fuelInventory.isValid())) {
+      TileEntity te = world.getTileEntity(this.getPos().down());
       if (te instanceof ITankTileEntity) {
-        fuelInventory = new MelterFuelWrapper(((ITankTileEntity)te).getInternalTank());
+        fuelInventory = new MelterFuelWrapper(((ITankTileEntity)te).getTank());
       } else {
         fuelInventory = null;
       }

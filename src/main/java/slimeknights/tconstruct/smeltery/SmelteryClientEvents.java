@@ -83,7 +83,7 @@ public class SmelteryClientEvents extends ClientEventBase {
       if (pos != null && world != null) {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof ITankTileEntity) {
-          FluidStack fluid = ((ITankTileEntity)te).getInternalTank().getFluid();
+          FluidStack fluid = ((ITankTileEntity)te).getTank().getFluid();
           return fluid.getFluid().getAttributes().getColor(fluid);
         }
       }

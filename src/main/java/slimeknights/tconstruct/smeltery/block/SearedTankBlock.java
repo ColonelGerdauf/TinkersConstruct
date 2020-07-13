@@ -14,6 +14,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fluids.FluidStack;
 import slimeknights.tconstruct.library.utils.Tags;
 import slimeknights.tconstruct.smeltery.tileentity.ITankTileEntity;
 import slimeknights.tconstruct.smeltery.tileentity.TankTileEntity;
@@ -63,7 +64,8 @@ public class SearedTankBlock extends SearedBlock {
   public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
     TileEntity te = world.getTileEntity(pos);
     if (te instanceof TankTileEntity) {
-      return ((TankTileEntity) te).getInternalTank().getFluid().getFluid().getAttributes().getLuminosity();
+      FluidStack fluid = ((TankTileEntity) te).getTank().getFluid();
+      return fluid.getFluid().getAttributes().getLuminosity(fluid);
     }
     return super.getLightValue(state, world, pos);
   }
@@ -71,7 +73,7 @@ public class SearedTankBlock extends SearedBlock {
   @Override
   public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
     TileEntity te = worldIn.getTileEntity(pos);
-    if (te instanceof TankTileEntity && stack != null && stack.hasTag()) {
+    if (te instanceof TankTileEntity && stack.hasTag()) {
       ((TankTileEntity) te).updateTank(stack.getTag().getCompound(Tags.TANK));
     }
     super.onBlockPlacedBy(worldIn, pos, state, placer, stack);

@@ -33,7 +33,7 @@ public interface ITankTileEntity extends IFluidTankUpdater, FluidUpdatePacket.IF
    * Gets the tank in this tile entity
    * @return  Tank
    */
-  FluidTankAnimated getInternalTank();
+  FluidTankAnimated getTank();
 
   /*
    * Comparator
@@ -44,7 +44,7 @@ public interface ITankTileEntity extends IFluidTankUpdater, FluidUpdatePacket.IF
    * @return  Tank comparator strength
    */
   default int comparatorStrength() {
-    FluidTankAnimated tank = getInternalTank();
+    FluidTankAnimated tank = getTank();
     return 15 * tank.getFluidAmount() / tank.getCapacity();
   }
 
@@ -63,7 +63,7 @@ public interface ITankTileEntity extends IFluidTankUpdater, FluidUpdatePacket.IF
   @Override
   default void onTankContentsChanged() {
     int newStrength = this.comparatorStrength();
-    if (newStrength != getLastStrength()) {
+    if (newStrength != getLastStrength() && getWorld() != null) {
       getWorld().notifyNeighborsOfStateChange(getPos(), getBlockState().getBlock());
       setLastStrength(newStrength);
     }
@@ -76,7 +76,7 @@ public interface ITankTileEntity extends IFluidTankUpdater, FluidUpdatePacket.IF
   @Override
   default void updateFluidTo(FluidStack fluid) {
     // update tank fluid
-    FluidTankAnimated tank = getInternalTank();
+    FluidTankAnimated tank = getTank();
     int oldAmount = tank.getFluidAmount();
     int newAmount = fluid.getAmount();
     tank.setFluid(fluid);

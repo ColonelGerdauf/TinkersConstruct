@@ -60,7 +60,7 @@ public class MelterScreen extends ContainerScreen<MelterContainer> {
 
     // fluids
     MelterTileEntity melter = container.getTileEntity();
-    FluidTankAnimated tank = melter.getInternalTank();
+    FluidTankAnimated tank = melter.getTank();
     GuiUtil.renderFluidTank(this, tank.getFluid(), tank.getCapacity(), 90, 16, 52, 52, 100);
 
     // fuel
@@ -80,7 +80,7 @@ public class MelterScreen extends ContainerScreen<MelterContainer> {
 
     // highlight hovered fluid
     if (GuiUtil.isHovered(checkX, checkY, 89, 15, 54, 54)) {
-      FluidTankAnimated tank = melter.getInternalTank();
+      FluidTankAnimated tank = melter.getTank();
       int fluidHeight = 52 * tank.getFluidAmount() / tank.getCapacity();
       int middle = 68 - fluidHeight;
       // highlight just fluid
@@ -112,7 +112,7 @@ public class MelterScreen extends ContainerScreen<MelterContainer> {
     int checkY = mouseY - this.guiTop;
     MelterTileEntity melter = container.getTileEntity();
     if (GuiUtil.isHovered(checkX, checkY, 89, 15, 54, 54)) {
-      FluidTankAnimated tank = melter.getInternalTank();
+      FluidTankAnimated tank = melter.getTank();
       int amount = tank.getFluidAmount();
       int capacity = tank.getCapacity();
 
