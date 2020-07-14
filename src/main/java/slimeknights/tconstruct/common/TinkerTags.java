@@ -90,9 +90,12 @@ public class TinkerTags {
     public static final Tag<Item> NUGGETS_COPPER = forgeTag("nuggets/copper");
     public static final Tag<Item> NUGGETS_ROSE_GOLD = forgeTag("nuggets/rose_gold");
 
+    public static final Tag<Item> CASTS = tag("casts");
+
     public static final Tag<Item> DUSTS_SULFUR = forgeTag("dusts/sulfur");
 
     public static final Tag<Item> RODS_STONE = forgeTag("rods/stone");
+
 
     private static Tag<Item> tag(String name) {
       return new ItemTags.Wrapper(new ResourceLocation("tconstruct", name));

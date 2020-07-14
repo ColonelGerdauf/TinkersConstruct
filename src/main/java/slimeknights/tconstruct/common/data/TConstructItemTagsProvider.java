@@ -15,6 +15,7 @@ import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.block.SlimeBlock;
+import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tools.TinkerMaterials;
 
 import java.util.Locale;
@@ -100,6 +101,20 @@ public class TConstructItemTagsProvider extends ItemTagsProvider {
     this.copy(TinkerTags.Blocks.SEARED_BRICKS, TinkerTags.Items.SEARED_BRICKS);
     this.copy(TinkerTags.Blocks.SMOOTH_SEARED_BLOCKS, TinkerTags.Items.SMOOTH_SEARED_BLOCKS);
     this.copy(TinkerTags.Blocks.SEARED_BLOCKS, TinkerTags.Items.SEARED_BLOCKS);
+    this.getBuilder(TinkerTags.Items.CASTS).add(
+      TinkerSmeltery.blankCast.get(),
+      TinkerSmeltery.ingotCast.get(),
+      TinkerSmeltery.nuggetCast.get(),
+      TinkerSmeltery.gemCast.get(),
+      TinkerSmeltery.pickaxeHeadCast.get(),
+      TinkerSmeltery.smallBindingCast.get(),
+      TinkerSmeltery.toolRodCast.get(),
+      TinkerSmeltery.toughToolRodCast.get(),
+      TinkerSmeltery.largePlateCast.get(),
+      TinkerSmeltery.swordBladeCast.get(),
+      TinkerSmeltery.hammerHeadCast.get(),
+      TinkerSmeltery.wideGuardCast.get(),
+      TinkerSmeltery.shovelHeadCast.get());
   }
 
   @Override

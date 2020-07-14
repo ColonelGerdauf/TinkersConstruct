@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "tconstruct:melting/blue_slime_from_congealed"
+      "tconstruct:melting/gold_from_cast"
     ]
   },
   "criteria": {
@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "tconstruct:blue_congealed_slime"
+            "tag": "tconstruct:casts"
           }
         ]
       }
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "tconstruct:melting/blue_slime_from_congealed"
+        "recipe": "tconstruct:melting/gold_from_cast"
       }
     }
   },
